@@ -1,0 +1,55 @@
+{
+  "name": "don-tools-api",
+  "version": "2.0.0",
+  "description": "Tools API van developer.overheid.nl",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/server.ts",
+    "build": "tsc",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "openapi",
+    "fastify",
+    "developer-overheid"
+  ],
+  "license": "EUPL-1.2",
+  "private": true,
+  "dependencies": {
+    "@apiture/openapi-down-convert": "^0.14.2",
+    "@developer-overheid-nl/adr-rulesets": "github:developer-overheid-nl/adr-rulesets#main",
+    "@fastify/cors": "^10.0.1",
+    "@redocly/openapi-core": "^2.0.0",
+    "@redocly/respect-core": "^2.0.0",
+    "@scalar/openapi-upgrader": "^0.2.3",
+    "@stoplight/spectral-core": "^1.21.0",
+    "@stoplight/spectral-parsers": "^1.0.5",
+    "ajv-formats": "^3.0.1",
+    "case-anything": "^3.1.2",
+    "fastify": "^5.1.0",
+    "fastify-openapi-glue": "^4.7.0",
+    "fastify-plugin": "^5.0.1",
+    "js-yaml": "^4.1.1",
+    "jszip": "^3.10.1",
+    "openapi-to-postmanv2": "^5.3.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.10.0",
+    "pino-pretty": "^11.3.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
