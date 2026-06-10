@@ -1,0 +1,14 @@
+packages:
+  - .
+
+allowBuilds:
+  "@developer-overheid-nl/adr-rulesets": true
+  esbuild: true
+
+overrides:
+  fast-uri@<=3.1.1: 3.1.2
+  fast-xml-builder@<=1.1.6: 1.2.0
+  js-yaml@>=4.0.0 <4.1.1: 4.2.0
+  lodash@<=4.17.23: 4.18.1
+  uuid@<11.1.1: 14.0.0
+  yaml@>=1.0.0 <1.10.3: 2.9.0

@@ -22,7 +22,7 @@ const convertToPostman = (data: string): Promise<PostmanConversionResult> =>
   new Promise((resolve, reject) => {
     openapiToPostman.convert({ type: "string", data }, {}, (error: Error | null, result: PostmanConversionResult) => {
       if (error) return reject(error);
-      if (!result || result.result !== true) {
+      if (result?.result !== true) {
         const reason = typeof result?.reason === "string" ? result.reason : "Conversie naar Postman is mislukt.";
         return reject(new Error(reason));
       }
