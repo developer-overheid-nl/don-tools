@@ -1,24 +1,25 @@
-# Tools logic package
+# DON Tools Logic
 
-Reusable Node.js / TypeScript logic for developer.overheid.nl tools.
+Herbruikbare TypeScript-logica voor de tools van `developer.overheid.nl`.
 
-This repository contains the package `@developer-overheid-nl/don-tools-logic`. It is intentionally not an HTTP API
-application. The HTTP API lives in `/Users/matthijshovestad/workspace/geonovum/don-tools-api` and should import this
-package. A future CLI can import the same package.
+Deze repository publiceert het package `@developer-overheid-nl/don-tools-logic`. Het is bewust
+geen HTTP API. De v1 HTTP-adapter staat in `don-tools-api` en importeert dit package. Een CLI of
+andere runtime kan dezelfde logica later ook rechtstreeks gebruiken.
 
-See [PACKAGE_SPLIT.md](./PACKAGE_SPLIT.md) for the migration setup.
+## Wat zit hierin?
 
-## Stack
+- OpenAPI input ophalen uit `oasBody` of `oasUrl`
+- OpenAPI 3.0/3.1 converteren
+- OpenAPI documenten bundelen en externe referenties oplossen
+- OpenAPI documenten valideren met DON ADR rulesets
+- Boilerplate OpenAPI documenten genereren uit JSON input
+- OpenAPI documenten converteren naar Postman collections
+- Markdown en Mermaid genereren voor Arazzo workflows
+- Keycloak clients aanmaken voor API-keyachtige toegang
 
-- **Runtime**: Node.js 22+
-- **Package manager**: pnpm
-- **Language**: TypeScript, native ESM, `NodeNext`
-- **Tests**: Vitest
-- **Lint/format**: Biome
+## Publieke API
 
-## Public API
-
-Import from the package root:
+Importeer functies en types vanaf de package root:
 
 ```ts
 import {
@@ -27,55 +28,100 @@ import {
   createPostmanCollection,
   generateOAS,
   validatorOpenAPIPost,
+  type OasInput,
 } from "@developer-overheid-nl/don-tools-logic";
 ```
 
-The package also exports Arazzo helpers, Keycloak client logic, shared input/result types, and `HttpError`.
+Belangrijkste exports:
 
-## Capabilities
+- `arazzoMarkdown`
+- `arazzoMermaid`
+- `bundleOAS`
+- `convertOAS`
+- `createPostmanCollection`
+- `generateOAS`
+- `untrustedClient`
+- `validatorOpenAPIPost`
+- `fetchSpecification`
+- `resolveOasInput`
+- `HttpError`
+- publieke input- en resulttypes
 
-- Resolve OpenAPI input from `oasBody` or `oasUrl`
-- Convert OpenAPI 3.0 and 3.1 documents
-- Bundle OpenAPI documents with dereferenced references
-- Validate OpenAPI documents with DON ADR rulesets
-- Generate boilerplate OpenAPI documents from JSON input
-- Convert OpenAPI documents to Postman collections
-- Generate Markdown and Mermaid output for Arazzo workflows
-- Create Keycloak clients for API-key style access
+## Ontwikkelen
 
-## Project Layout
+Vereisten:
 
-```text
-src/
-  index.ts       Public package exports
-  services/      Business logic functions
-  helpers/       Shared implementation helpers
-  utils/         Generic utilities and HttpError
-  types/         Public TypeScript types and local dependency shims
-test/            Vitest service tests
-```
+- Node.js 22+
+- pnpm 11+
 
-## Development
+Setup:
 
 ```sh
 corepack enable
 pnpm install
+```
+
+Handige scripts:
+
+```sh
+pnpm build      # TypeScript build naar dist/
+pnpm typecheck  # TypeScript typecheck zonder output
+pnpm lint       # Biome lint
+pnpm test       # Vitest tests
+pnpm format     # Biome format
+```
+
+De build schrijft ESM JavaScript en TypeScript declarations naar `dist/`. Alleen `dist/` wordt
+meegenomen in het npm package.
+
+## Publiceren naar npm
+
+Voor handmatig publishen:
+
+```sh
+pnpm install
 pnpm build
-pnpm typecheck
-pnpm lint
 pnpm test
+npm pack --dry-run
+npm login
+npm publish --access public
 ```
 
-The build emits ESM JavaScript and declaration files to `dist/`. Only `dist/` is included in the published package.
+Controleer voor publishen:
 
-## Local Consumer Setup
+- `package.json` heeft de juiste `version`
+- `private` staat op `false`
+- `dist/` is opnieuw gebouwd
+- `npm pack --dry-run` toont alleen bestanden die je verwacht
 
-Until this package is published, the API repository can consume it through a local file dependency:
+Let op: dit package gebruikt nu nog `@developer-overheid-nl/adr-rulesets` via GitHub. Als je
+installaties helemaal onafhankelijk van GitHub tokens wilt maken, publiceer die dependency ook naar
+npm of vervang hem door een npm-versie.
 
-```json
-{
-  "dependencies": {
-    "@developer-overheid-nl/don-tools-logic": "file:../don-tools-api-v2"
-  }
-}
+## Gebruiken vanuit `don-tools-api`
+
+Na publicatie kan de v1 API-adapter een expliciete npm-versie gebruiken:
+
+```sh
+cd ../don-tools-api
+npm install @developer-overheid-nl/don-tools-logic@<version>
 ```
+
+Gebruik in CI/CD liever een npm-versie dan een GitHub dependency. Dat voorkomt SSH-key- en
+repository-tokenproblemen tijdens installs en Docker builds.
+
+## Repository-indeling
+
+```text
+src/index.ts       Publieke package exports
+src/services/      Businesslogica per tool
+src/helpers/       Gedeelde helpers voor input, Arazzo en Keycloak
+src/utils/         Algemene utilities en problem-details fouten
+src/types/         Publieke TypeScript types en dependency shims
+test/              Vitest tests
+dist/              Build output, alleen aanwezig na pnpm build
+```
+
+## Licentie
+
+EUPL-1.2
