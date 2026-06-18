@@ -12,6 +12,7 @@ export const KEYCLOAK_ERROR_CODES = {
   CONFLICT: "conflict",
   UNAUTHORIZED: "unauthorized",
   CLIENT_ID_MISSING: "client_id_missing",
+  EMAIL_MISSING: "email_missing",
   GENERIC: "generic",
 } as const;
 
@@ -103,9 +104,12 @@ export class KeycloakClient {
   async createClient(input: { email: string }): Promise<{ apiKey: string }> {
     if (!this.isConfigured()) throw new KeycloakError("Keycloak configuratie ontbreekt", KEYCLOAK_ERROR_CODES.CONFIG);
 
+    const email = typeof input.email === "string" ? input.email.trim() : "";
+    if (!email) throw new KeycloakError("email ontbreekt of is ongeldig", KEYCLOAK_ERROR_CODES.EMAIL_MISSING);
+
     const token = await this.fetchToken();
     const newClientId = randomUUID();
-    const payload = buildKeycloakPayload(newClientId, input.email);
+    const payload = buildKeycloakPayload(newClientId, email);
 
     let response: Response;
     try {
@@ -201,6 +205,8 @@ export const translateKeycloakError = (error: unknown): HttpError => {
       return new HttpError(403, "Geen toegang tot Keycloak admin API");
     case KEYCLOAK_ERROR_CODES.CLIENT_ID_MISSING:
       return new HttpError(400, "clientId ontbreekt of is ongeldig");
+    case KEYCLOAK_ERROR_CODES.EMAIL_MISSING:
+      return new HttpError(400, "email ontbreekt of is ongeldig");
     default:
       return new HttpError(500, error.message || "Er is een fout opgetreden bij Keycloak.");
   }
