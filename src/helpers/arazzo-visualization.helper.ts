@@ -1,7 +1,7 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
-import jsYaml from "js-yaml";
+import { load } from "js-yaml";
 import {
   bundle as redoclyBundle,
   createConfig,
@@ -81,7 +81,7 @@ const ensureTempFile = async (contents: string, filename = "input.yaml") => {
 
 const parseYamlOrUndefined = (contents: string): Record<string, unknown> | undefined => {
   try {
-    const parsed = jsYaml.load(contents);
+    const parsed = load(contents);
     return parsed && typeof parsed === "object" && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)
       : undefined;

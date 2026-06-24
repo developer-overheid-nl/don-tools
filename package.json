@@ -38,23 +38,23 @@
   "dependencies": {
     "@apiture/openapi-down-convert": "^0.14.2",
     "@developer-overheid-nl/adr-rulesets": "github:developer-overheid-nl/adr-rulesets#main",
-    "@redocly/openapi-core": "^2.32.0",
-    "@redocly/respect-core": "^2.32.0",
+    "@redocly/openapi-core": "^2.34.0",
+    "@redocly/respect-core": "^2.34.0",
     "@scalar/openapi-upgrader": "^0.2.9",
     "@stoplight/spectral-core": "^1.23.0",
     "@stoplight/spectral-parsers": "^1.0.5",
     "case-anything": "^3.1.2",
-    "js-yaml": "^4.2.0",
+    "js-yaml": "^5.1.0",
     "jszip": "^3.10.1",
-    "openapi-to-postmanv2": "^6.0.1"
+    "openapi-to-postmanv2": "^6.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.16",
+    "@biomejs/biome": "^2.5.0",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^25.9.2",
+    "@types/node": "^26.0.0",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   }
 }
