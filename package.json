@@ -1,6 +1,6 @@
 {
   "name": "@developer-overheid-nl/don-tools-logic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Business logic for the developer.overheid.nl Tools API and future CLI",
   "type": "module",
   "main": "./dist/index.js",
