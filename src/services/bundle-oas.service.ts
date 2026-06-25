@@ -26,6 +26,12 @@ const stringifyAsJson = (document: unknown): string | null => {
   }
 };
 
+const circularDereferenceError = () =>
+  new HttpError(
+    422,
+    "De OpenAPI specificatie bevat circulaire verwijzingen en kan niet volledig worden gedereferenced.",
+  );
+
 export const bundleOAS = async (input: OasInput): Promise<BundleResult> => {
   const resolved = await resolveOasInput(input);
   const contents = typeof resolved.contents === "string" ? resolved.contents : "";
@@ -50,15 +56,11 @@ export const bundleOAS = async (input: OasInput): Promise<BundleResult> => {
     throw new HttpError(500, "Onverwachte structuur na bundelen.");
   }
 
-  let outputFormat: "json" | "yaml" = inputFormat;
-  let bundledText: string | null = null;
-  if (inputFormat === "json") {
-    bundledText = stringifyAsJson(document);
-    if (bundledText === null) outputFormat = "yaml";
-  }
-  if (bundledText === null) {
-    bundledText = dump(document, { lineWidth: -1 });
-  }
+  const jsonText = stringifyAsJson(document);
+  if (jsonText === null) throw circularDereferenceError();
+
+  const outputFormat: "json" | "yaml" = inputFormat;
+  const bundledText = outputFormat === "json" ? jsonText : dump(document, { lineWidth: -1 });
 
   const filename = `openapi.${outputFormat}`;
   const contentType = outputFormat === "json" ? "application/json" : "application/yaml";
