@@ -2,7 +2,7 @@
 
 Herbruikbare TypeScript-logica voor de tools van `developer.overheid.nl`.
 
-Deze repository publiceert het package `@developer-overheid-nl/don-tools-logic`. Het is bewust
+Deze repository publiceert het package `@developer-overheid-nl/don-tools`. Het is bewust
 geen HTTP API. De v1 HTTP-adapter staat in `don-tools-api` en importeert dit package. Een CLI of
 andere runtime kan dezelfde logica later ook rechtstreeks gebruiken.
 
