@@ -1,8 +1,5 @@
-// Hand-crafted mirrors of components.schemas in api/openapi.json.
-//
-// Until the openapi-generator template is in place, these types are kept in
-// sync with the spec by hand. The generator will replace this file with
-// auto-generated types from the same spec.
+// Public logic-package types. The HTTP API repository can map these to its
+// OpenAPI request and response schemas.
 
 export interface OasInput {
   oasBody?: string;

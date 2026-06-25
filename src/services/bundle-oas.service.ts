@@ -1,4 +1,4 @@
-import jsYaml from "js-yaml";
+import { dump } from "js-yaml";
 import { bundleFromString, createConfig } from "@redocly/openapi-core";
 import { HttpError } from "../utils/problem-details.js";
 import { resolveOasInput } from "../helpers/oas-input.helper.js";
@@ -57,7 +57,7 @@ export const bundleOAS = async (input: OasInput): Promise<BundleResult> => {
     if (bundledText === null) outputFormat = "yaml";
   }
   if (bundledText === null) {
-    bundledText = jsYaml.dump(document, { lineWidth: -1 });
+    bundledText = dump(document, { lineWidth: -1 });
   }
 
   const filename = `openapi.${outputFormat}`;

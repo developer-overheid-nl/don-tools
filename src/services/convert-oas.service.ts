@@ -1,6 +1,6 @@
 import { Converter } from "@apiture/openapi-down-convert";
 import { upgrade as scalarUpgrade } from "@scalar/openapi-upgrader";
-import jsYaml from "js-yaml";
+import { dump, load } from "js-yaml";
 import { HttpError } from "../utils/problem-details.js";
 import { resolveOasInput } from "../helpers/oas-input.helper.js";
 import type { OasInput } from "../types/api.js";
@@ -36,7 +36,7 @@ const parseSpecification = (contents: string): ParsedSpec => {
     return { spec, format: "json" };
   } catch {
     try {
-      const spec = jsYaml.load(trimmed);
+      const spec = load(trimmed);
       if (!spec || typeof spec !== "object" || Array.isArray(spec)) throw new Error("Ongeldig OpenAPI document");
       return { spec: spec as Record<string, unknown>, format: "yaml" };
     } catch (yamlError) {
@@ -128,7 +128,7 @@ const serializeSpecification = (
     const json = JSON.stringify(spec, null, 2);
     return { buffer: Buffer.from(json, "utf8"), contentType: "application/json", filename: `${filenameBase}.json` };
   }
-  const yaml = jsYaml.dump(spec, { lineWidth: -1 });
+  const yaml = dump(spec, { lineWidth: -1 });
   return { buffer: Buffer.from(yaml, "utf8"), contentType: "application/yaml", filename: `${filenameBase}.yaml` };
 };
 
