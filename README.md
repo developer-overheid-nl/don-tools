@@ -29,7 +29,7 @@ import {
   generateOAS,
   validatorOpenAPIPost,
   type OasInput,
-} from "@developer-overheid-nl/don-tools-logic";
+} from "@developer-overheid-nl/don-tools";
 ```
 
 Belangrijkste exports:
@@ -104,7 +104,7 @@ Na publicatie kan de v1 API-adapter een expliciete npm-versie gebruiken:
 
 ```sh
 cd ../don-tools-api
-npm install @developer-overheid-nl/don-tools-logic@<version>
+npm install @developer-overheid-nl/don-tools@<version>
 ```
 
 Gebruik in CI/CD liever een npm-versie dan een GitHub dependency. Dat voorkomt SSH-key- en
