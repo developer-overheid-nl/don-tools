@@ -16,12 +16,17 @@ const guessInputFormat = (contents: string): "json" | "yaml" => {
   return trimmed.startsWith("{") || trimmed.startsWith("[") ? "json" : "yaml";
 };
 
-const stringifyAsJson = (document: unknown): string | null => {
+const CIRCULAR_DEREFERENCE_MESSAGE =
+  "De OpenAPI specificatie bevat circulaire verwijzingen en kan niet volledig worden gedereferenced.";
+
+const stringifyAsJson = (document: unknown): string => {
   try {
     return JSON.stringify(document, null, 2);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    if (message.toLowerCase().includes("circular")) return null;
+    if (message.toLowerCase().includes("circular")) {
+      throw new HttpError(422, CIRCULAR_DEREFERENCE_MESSAGE, { detail: message });
+    }
     throw error;
   }
 };
@@ -50,18 +55,16 @@ export const bundleOAS = async (input: OasInput): Promise<BundleResult> => {
     throw new HttpError(500, "Onverwachte structuur na bundelen.");
   }
 
-  let outputFormat: "json" | "yaml" = inputFormat;
-  let bundledText: string | null = null;
+  let bundledText: string;
   if (inputFormat === "json") {
     bundledText = stringifyAsJson(document);
-    if (bundledText === null) outputFormat = "yaml";
-  }
-  if (bundledText === null) {
+  } else {
+    stringifyAsJson(document);
     bundledText = dump(document, { lineWidth: -1 });
   }
 
-  const filename = `openapi.${outputFormat}`;
-  const contentType = outputFormat === "json" ? "application/json" : "application/yaml";
+  const filename = `openapi.${inputFormat}`;
+  const contentType = inputFormat === "json" ? "application/json" : "application/yaml";
 
   return {
     headers: {
