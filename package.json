@@ -44,7 +44,7 @@
     "@stoplight/spectral-core": "^1.23.0",
     "@stoplight/spectral-parsers": "^1.0.5",
     "case-anything": "^3.1.2",
-    "js-yaml": "^5.1.0",
+    "js-yaml": "^5.2.1",
     "jszip": "^3.10.1",
     "openapi-to-postmanv2": "^6.1.0"
   },
