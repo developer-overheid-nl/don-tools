@@ -32,8 +32,8 @@ importers:
         specifier: ^0.2.9
         version: 0.2.9
       '@stoplight/spectral-core':
-        specifier: ^1.23.0
-        version: 1.23.0
+        specifier: ^1.23.1
+        version: 1.23.1
       '@stoplight/spectral-parsers':
         specifier: ^1.0.5
         version: 1.0.5
@@ -494,6 +494,9 @@ packages:
     resolution: {integrity: sha512-D5b0rGLLZgmkO9mdW2j/ND1KBlH1u3RCpr87HPxv9P9ZSr6PtM5iLqFOJq0ACiaHjY2mikCrxgDmnUEhTzRpHQ==}
     engines: {node: '>=22'}
 
+  '@scarf/scarf@1.4.0':
+    resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
+
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
@@ -527,6 +530,10 @@ packages:
     resolution: {integrity: sha512-WvdgmiiJrjiMrcw7ByxfcYtUvAXNp2MhAfcEIXP3Mn8ZOVwyAWIsFjLlsE5zRqj0LuN8+7OQM/L+BMcHj6x/BQ==}
     engines: {node: ^16.20 || ^18.18 || >= 20.17}
 
+  '@stoplight/spectral-core@1.23.1':
+    resolution: {integrity: sha512-VLC8OhpO/pMJKb6IHhurxJjXO1qB56Ng1unIb8b+hNxdw0+SEcASvmR+RpjfHYX/jv/DfSaA1x8QhFBJBmqBOQ==}
+    engines: {node: ^16.20 || ^18.18 || >= 20.17}
+
   '@stoplight/spectral-formats@1.8.3':
     resolution: {integrity: sha512-lfYzkHYS2mZQdm3k+TQ0lvXZ66vdBzJuy6awA4kXgQ0jWBbOC/FHzhBk5BaIVo2QRLUAGjMqWSd72WFryi+EvA==}
     engines: {node: ^16.20 || ^18.18 || >= 20.17}
@@ -547,8 +554,8 @@ packages:
     resolution: {integrity: sha512-Lwr4DVg8aEqiBcm2CMQAP1FIBmLP9Y8Z2st7jvbxzv3fXmThdafVMy6CrydWH46T4Wotm+UuBJFnqJd9H4RQZQ==}
     engines: {node: ^16.20 || ^18.18 || >= 20.17}
 
-  '@stoplight/spectral-runtime@1.1.5':
-    resolution: {integrity: sha512-6/HSCQBKnI4M5qonCKos2W7oggXv+U/ml+m/cAd4eJAYfIVEmaLUo03qSWIIl4cBc5ujJPmn2WnCiRrz1++P7Q==}
+  '@stoplight/spectral-runtime@1.1.6':
+    resolution: {integrity: sha512-Y8rEDyMN4bSMJCrDs2shdcVHYyCnH3FvXRP4dBhha4Z8iJv+JPp7KqOV/hwVB/hWFC209upiwj2oDmLfR0qCDg==}
     engines: {node: ^16.20 || ^18.18 || >= 20.17}
 
   '@stoplight/types@13.20.0':
@@ -625,10 +632,6 @@ packages:
 
   '@vitest/utils@4.1.9':
     resolution: {integrity: sha512-A51o8ymO5PpqlWNnBP9ZHPXDIpuMtTLlGSjN7la4US+LJzoUMyhwjA5QXlm39JexgwHKW4Xjs8Z2d3dLCXOeuA==}
-
-  abort-controller@3.0.0:
-    resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
-    engines: {node: '>=6.5'}
 
   ajv-draft-04@1.0.0:
     resolution: {integrity: sha512-mv00Te6nmYbRp5DCwclxtt7yV/joXJPGS7nM+97GdxvuttCOfgI3K4U25zboyeX0O+myI8ERluxQe5wljMmVIw==}
@@ -851,8 +854,8 @@ packages:
     resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
-  es-to-primitive@1.3.1:
-    resolution: {integrity: sha512-CxN9N56HYfd2m/acc/NOFrZQsN9kU4eh+2kk6A707Kz1krH8tKmfrs5RnftB8WNX80T0NS7vSQsDOlg23diR2g==}
+  es-to-primitive@1.3.4:
+    resolution: {integrity: sha512-yPDz7wqpg1/mmHLmS3tcfTfbw5f1eryXvyghYBffGdERwe+mV7ZcWzTR8LR17Kvqt3qfPurjlonmnq3MKXIOXw==}
     engines: {node: '>= 0.4'}
 
   es6-promise@3.3.1:
@@ -869,10 +872,6 @@ packages:
 
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
-
-  event-target-shim@5.0.1:
-    resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
-    engines: {node: '>=6'}
 
   expect-type@1.3.0:
     resolution: {integrity: sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==}
@@ -1869,7 +1868,7 @@ snapshots:
 
   '@developer-overheid-nl/adr-rulesets@https://codeload.github.com/developer-overheid-nl/adr-rulesets/tar.gz/da1327dfcc83ed130b1fe5aaa282b7bfba537aee':
     dependencies:
-      '@stoplight/spectral-core': 1.23.0
+      '@stoplight/spectral-core': 1.23.1
       '@stoplight/spectral-functions': 1.10.3
       '@stoplight/spectral-rulesets': 1.22.4
     transitivePeerDependencies:
@@ -2107,6 +2106,8 @@ snapshots:
     dependencies:
       '@scalar/openapi-types': 0.9.1
 
+  '@scarf/scarf@1.4.0': {}
+
   '@standard-schema/spec@1.1.0': {}
 
   '@stoplight/better-ajv-errors@1.0.3(ajv@8.20.0)':
@@ -2126,7 +2127,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@types/urijs': 1.19.26
       dependency-graph: 0.11.0
       fast-memoize: 2.5.2
@@ -2139,7 +2140,7 @@ snapshots:
     dependencies:
       '@stoplight/ordered-object-literal': 1.0.5
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       jsonc-parser: 2.2.1
       lodash: 4.18.1
       safe-stable-stringify: 1.1.1
@@ -2155,7 +2156,34 @@ snapshots:
       '@stoplight/path': 1.3.2
       '@stoplight/spectral-parsers': 1.0.5
       '@stoplight/spectral-ref-resolver': 1.0.5
-      '@stoplight/spectral-runtime': 1.1.5
+      '@stoplight/spectral-runtime': 1.1.6
+      '@stoplight/types': 13.6.0
+      '@types/es-aggregate-error': 1.0.6
+      '@types/json-schema': 7.0.15
+      ajv: 8.20.0
+      ajv-errors: 3.0.0(ajv@8.20.0)
+      ajv-formats: 2.1.1(ajv@8.20.0)
+      es-aggregate-error: 1.0.14
+      expr-eval-fork: 3.0.3
+      jsonpath-plus: 10.4.0
+      lodash: 4.18.1
+      lodash.topath: 4.5.2
+      minimatch: 3.1.5
+      nimma: 0.2.3
+      pony-cause: 1.1.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - encoding
+
+  '@stoplight/spectral-core@1.23.1':
+    dependencies:
+      '@scarf/scarf': 1.4.0
+      '@stoplight/better-ajv-errors': 1.0.3(ajv@8.20.0)
+      '@stoplight/json': 3.21.7
+      '@stoplight/path': 1.3.2
+      '@stoplight/spectral-parsers': 1.0.5
+      '@stoplight/spectral-ref-resolver': 1.0.5
+      '@stoplight/spectral-runtime': 1.1.6
       '@stoplight/types': 13.6.0
       '@types/es-aggregate-error': 1.0.6
       '@types/json-schema': 7.0.15
@@ -2189,7 +2217,7 @@ snapshots:
       '@stoplight/json': 3.21.7
       '@stoplight/spectral-core': 1.23.0
       '@stoplight/spectral-formats': 1.8.3
-      '@stoplight/spectral-runtime': 1.1.5
+      '@stoplight/spectral-runtime': 1.1.6
       ajv: 8.20.0
       ajv-draft-04: 1.0.0(ajv@8.20.0)
       ajv-errors: 3.0.0(ajv@8.20.0)
@@ -2210,7 +2238,7 @@ snapshots:
     dependencies:
       '@stoplight/json-ref-readers': 1.2.2
       '@stoplight/json-ref-resolver': 3.1.6
-      '@stoplight/spectral-runtime': 1.1.5
+      '@stoplight/spectral-runtime': 1.1.6
       dependency-graph: 0.11.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -2224,7 +2252,7 @@ snapshots:
       '@stoplight/spectral-core': 1.23.0
       '@stoplight/spectral-formats': 1.8.3
       '@stoplight/spectral-functions': 1.10.3
-      '@stoplight/spectral-runtime': 1.1.5
+      '@stoplight/spectral-runtime': 1.1.6
       '@stoplight/types': 13.20.0
       '@types/json-schema': 7.0.15
       ajv: 8.20.0
@@ -2236,12 +2264,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@stoplight/spectral-runtime@1.1.5':
+  '@stoplight/spectral-runtime@1.1.6':
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
-      abort-controller: 3.0.0
+      '@stoplight/types': 13.20.0
       lodash: 4.18.1
       node-fetch: 2.7.0
       tslib: 2.8.1
@@ -2340,10 +2367,6 @@ snapshots:
       '@vitest/pretty-format': 4.1.9
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
-
-  abort-controller@3.0.0:
-    dependencies:
-      event-target-shim: 5.0.1
 
   ajv-draft-04@1.0.0(ajv@8.20.0):
     optionalDependencies:
@@ -2553,7 +2576,7 @@ snapshots:
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
       es-set-tostringtag: 2.1.0
-      es-to-primitive: 1.3.1
+      es-to-primitive: 1.3.4
       function.prototype.name: 1.2.0
       get-intrinsic: 1.3.0
       get-proto: 1.0.1
@@ -2624,9 +2647,10 @@ snapshots:
       has-tostringtag: 1.0.2
       hasown: 2.0.4
 
-  es-to-primitive@1.3.1:
+  es-to-primitive@1.3.4:
     dependencies:
       es-abstract-get: 1.0.0
+      es-define-property: 1.0.1
       es-errors: 1.3.0
       is-callable: 1.2.7
       is-date-object: 1.1.0
@@ -2668,8 +2692,6 @@ snapshots:
   estree-walker@3.0.3:
     dependencies:
       '@types/estree': 1.0.9
-
-  event-target-shim@5.0.1: {}
 
   expect-type@1.3.0: {}
 

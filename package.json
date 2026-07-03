@@ -41,7 +41,7 @@
     "@redocly/openapi-core": "^2.34.0",
     "@redocly/respect-core": "^2.34.0",
     "@scalar/openapi-upgrader": "^0.2.9",
-    "@stoplight/spectral-core": "^1.23.0",
+    "@stoplight/spectral-core": "^1.23.1",
     "@stoplight/spectral-parsers": "^1.0.5",
     "case-anything": "^3.1.2",
     "js-yaml": "^5.2.1",
