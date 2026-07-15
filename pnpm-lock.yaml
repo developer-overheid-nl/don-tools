@@ -26,8 +26,8 @@ importers:
         specifier: ^2.34.0
         version: 2.34.0
       '@redocly/respect-core':
-        specifier: ^2.34.0
-        version: 2.34.0
+        specifier: ^2.39.0
+        version: 2.39.0
       '@scalar/openapi-upgrader':
         specifier: ^0.2.9
         version: 0.2.9
@@ -380,12 +380,19 @@ packages:
   '@redocly/config@0.49.0':
     resolution: {integrity: sha512-OI/rpEffX3fKUuy+OuBHPRspRI/S30b9aiqxfZLMpSWZzDncEGPxSEP1O2LrBVshnDX4hLjVjLvCZ4YT85+1rw==}
 
+  '@redocly/config@0.51.0':
+    resolution: {integrity: sha512-XoSkEN28ojqvF1fP8mhOlzHPowpr1/jkvbo3qXKIKXG8RqTiQkLCGTvYdMBjcagEheFFXAsaJKM/GMdoczd4Zg==}
+
   '@redocly/openapi-core@2.34.0':
     resolution: {integrity: sha512-QHdrFT34zJLTwC1vG4QAwSzHMh2Ll545X/u5ScKzVPh8PPmjYVE+jMjVmwlRXyTPKWxOerqbPY7ZOACOCOSfbg==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
-  '@redocly/respect-core@2.34.0':
-    resolution: {integrity: sha512-h3flGJdUk0c7n8PbjK0ZLhZbPHjkkF3gA4CMYBxGSo6fuvDJcCGVHe/EV6hZrq7N3XWUG2S+zTKwBQfVhOWq2Q==}
+  '@redocly/openapi-core@2.39.0':
+    resolution: {integrity: sha512-sACPZX1LUf/GLdZ7xyYV7dgZ73gRzi0TVgNXME5OGKVEHPeNv8z91v2KYhuJso8XJ+E5EVpwBU02UEkrKvSycA==}
+    engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
+
+  '@redocly/respect-core@2.39.0':
+    resolution: {integrity: sha512-qgsZ5BdYQoyNRTmCa+mX/nh9KvXfCz2ivNHn4POrhPiP84kocL5CXM/DQ2OXxlgeQux5P2O9ntU3onVOwUCVkg==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@rolldown/binding-android-arm64@1.0.3':
@@ -894,11 +901,11 @@ packages:
   fast-uri@3.1.2:
     resolution: {integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==}
 
-  fast-xml-builder@1.2.0:
-    resolution: {integrity: sha512-00aAWieqff+ZJhsXA4g1g7M8k+7AYoMUUHF+/zFb5U6Uv/P0Vl4QZo84/IcufzYalLuEj9928bXN9PbbFzMF0Q==}
+  fast-xml-builder@1.3.0:
+    resolution: {integrity: sha512-F74cZEdCvuw9P41GAC3rod4X04jjWGM1JPEv/GWSqFTWLsdyMSBMBMlm9Hk3GLBgLBbdBNY8yee0pQh2RBVESQ==}
 
-  fast-xml-parser@5.9.3:
-    resolution: {integrity: sha512-brCNCeScma/kqa54J4PIDriSSSLssRkuYaUCpvHJulGc3HGI/xxKUCTDcYkAdqJsyb//ydpbxecjC3hB9+tb/g==}
+  fast-xml-parser@5.10.0:
+    resolution: {integrity: sha512-SLhnTEqE5QpJHq/6zl9bsmImEP2adv+y6Wy+cJa7nVTRzQh1OZfCe9k29M5xN74LWnu0xa1zrUrq3KnOKl92Fg==}
     hasBin: true
 
   fdir@6.5.0:
@@ -966,6 +973,10 @@ packages:
 
   graphlib@2.1.8:
     resolution: {integrity: sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==}
+
+  graphql@16.14.2:
+    resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
@@ -1097,8 +1108,8 @@ packages:
     resolution: {integrity: sha512-p3EcsicXjit7SaskXHs1hA91QxgTw46Fv6EFKKGS5DRFLD8yKnohjF3hxoju94b/OcMZoQukzpPpBE9uLVKzgQ==}
     engines: {node: '>= 0.4'}
 
-  is-unsafe@1.0.1:
-    resolution: {integrity: sha512-CLK2+VdgERgD96EYm5lUQssZYlRg2tkZnbsxZoacmSiRxiFJ4Nk4SzjCl+Ur+v3kXIY9dTIdb3IH22y1mZ56LA==}
+  is-unsafe@2.0.0:
+    resolution: {integrity: sha512-2LdV822R+wmI86unXA93WCFpL6g+av8ynWk0nrHyJqGop5VoocYsSLFgN8jrfalT6iGeLNM4KXuVSsULP53kEA==}
 
   is-weakmap@2.0.2:
     resolution: {integrity: sha512-K5pXYOm9wqY1RgjpL3YTkF39tni1XajUIkawTLUo9EZEVUFga5gSQJF8nNS7ZwJQ02y+1YCNYcMh+HIf1ZqE+w==}
@@ -1379,8 +1390,8 @@ packages:
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
 
-  path-expression-matcher@1.6.1:
-    resolution: {integrity: sha512-h7bxdzhHk8Knyc4Tj+jMaa7fEEoUJy7p1qtbVgkYg1Uhpe5Np5VuGXCRZnkZvU+Q42M1vStt0ifa3ueykRJPmQ==}
+  path-expression-matcher@1.6.2:
+    resolution: {integrity: sha512-enSlaiat05iasnzmgNxRj8reFdj3puY2QpNgP1aPIaVfT6nn9ICuPoFlKHk8EN22HcwewshO+mN2DGbkCEOtqQ==}
     engines: {node: '>=14.0.0'}
 
   pathe@2.0.3:
@@ -1391,6 +1402,10 @@ packages:
 
   picomatch@4.0.4:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
   pluralize@8.0.0:
@@ -1786,8 +1801,8 @@ packages:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
     engines: {node: '>=10'}
 
-  xml-naming@0.1.0:
-    resolution: {integrity: sha512-k8KO9hrMyNk6tUWqUfkTEZbezRRpONVOzUTnc97VnCvyj6Tf9lyUR9EDAIeiVLv56jsMcoXEwjW8Kv5yPY52lw==}
+  xml-naming@0.3.0:
+    resolution: {integrity: sha512-ghig2TBE/H11aOVgmahA3MhimvkBr6JIYknH/Dhdk10nXwdbIqBJsbfMxpvFPG8bAw77gN29aQWvKpmVoPlvPQ==}
     engines: {node: '>=16.0.0'}
 
   y18n@5.0.8:
@@ -2022,6 +2037,10 @@ snapshots:
     dependencies:
       json-schema-to-ts: 2.7.2
 
+  '@redocly/config@0.51.0':
+    dependencies:
+      json-schema-to-ts: 2.7.2
+
   '@redocly/openapi-core@2.34.0':
     dependencies:
       '@redocly/ajv': 8.18.3
@@ -2035,12 +2054,26 @@ snapshots:
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
 
-  '@redocly/respect-core@2.34.0':
+  '@redocly/openapi-core@2.39.0':
+    dependencies:
+      '@redocly/ajv': 8.18.3
+      '@redocly/config': 0.51.0
+      ajv: '@redocly/ajv@8.18.1'
+      ajv-formats: 3.0.1(@redocly/ajv@8.18.1)
+      colorette: 1.4.0
+      graphql: 16.14.2
+      js-levenshtein: 1.1.6
+      js-yaml: 4.3.0
+      picomatch: 4.0.5
+      pluralize: 8.0.0
+      yaml-ast-parser: 0.0.43
+
+  '@redocly/respect-core@2.39.0':
     dependencies:
       '@faker-js/faker': 7.6.0
       '@noble/hashes': 1.8.0
       '@redocly/ajv': 8.18.3
-      '@redocly/openapi-core': 2.34.0
+      '@redocly/openapi-core': 2.39.0
       ajv: '@redocly/ajv@8.18.1'
       better-ajv-errors: 2.0.3(@redocly/ajv@8.18.1)
       colorette: 2.0.20
@@ -2048,7 +2081,7 @@ snapshots:
       jsonpath-rfc9535: 1.3.0
       openapi-sampler: 1.7.4
       outdent: 0.8.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
 
   '@rolldown/binding-android-arm64@1.0.3':
     optional: true
@@ -2683,19 +2716,19 @@ snapshots:
 
   fast-uri@3.1.2: {}
 
-  fast-xml-builder@1.2.0:
+  fast-xml-builder@1.3.0:
     dependencies:
-      path-expression-matcher: 1.6.1
-      xml-naming: 0.1.0
+      path-expression-matcher: 1.6.2
+      xml-naming: 0.3.0
 
-  fast-xml-parser@5.9.3:
+  fast-xml-parser@5.10.0:
     dependencies:
       '@nodable/entities': 2.2.0
-      fast-xml-builder: 1.2.0
-      is-unsafe: 1.0.1
-      path-expression-matcher: 1.6.1
+      fast-xml-builder: 1.3.0
+      is-unsafe: 2.0.0
+      path-expression-matcher: 1.6.2
       strnum: 2.4.1
-      xml-naming: 0.1.0
+      xml-naming: 0.3.0
 
   fdir@6.5.0(picomatch@4.0.4):
     optionalDependencies:
@@ -2766,6 +2799,8 @@ snapshots:
   graphlib@2.1.8:
     dependencies:
       lodash: 4.18.1
+
+  graphql@16.14.2: {}
 
   has-bigints@1.1.0: {}
 
@@ -2900,7 +2935,7 @@ snapshots:
     dependencies:
       which-typed-array: 1.1.22
 
-  is-unsafe@1.0.1: {}
+  is-unsafe@2.0.0: {}
 
   is-weakmap@2.0.2: {}
 
@@ -3139,7 +3174,7 @@ snapshots:
   openapi-sampler@1.7.4:
     dependencies:
       '@types/json-schema': 7.0.15
-      fast-xml-parser: 5.9.3
+      fast-xml-parser: 5.10.0
       json-pointer: 0.6.2
 
   openapi-to-postmanv2@6.2.0:
@@ -3179,13 +3214,15 @@ snapshots:
 
   path-browserify@1.0.1: {}
 
-  path-expression-matcher@1.6.1: {}
+  path-expression-matcher@1.6.2: {}
 
   pathe@2.0.3: {}
 
   picocolors@1.1.1: {}
 
   picomatch@4.0.4: {}
+
+  picomatch@4.0.5: {}
 
   pluralize@8.0.0: {}
 
@@ -3652,7 +3689,7 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
-  xml-naming@0.1.0: {}
+  xml-naming@0.3.0: {}
 
   y18n@5.0.8: {}
 
