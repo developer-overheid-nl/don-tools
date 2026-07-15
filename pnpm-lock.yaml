@@ -47,8 +47,8 @@ importers:
         specifier: ^3.10.1
         version: 3.10.1
       openapi-to-postmanv2:
-        specifier: ^6.2.0
-        version: 6.2.0
+        specifier: ^6.3.0
+        version: 6.3.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.1
@@ -1358,8 +1358,8 @@ packages:
   openapi-sampler@1.7.4:
     resolution: {integrity: sha512-CKS/rd5ucPCuEDbJnjGDXZTsuGWcmv53aCmQx7soZlPEONUGN4af0/dY5+THRFZraSEjeA78nlfzdFswC/N5SA==}
 
-  openapi-to-postmanv2@6.2.0:
-    resolution: {integrity: sha512-kKGHW5df7Fti9/tpFDNr9oX1ZGLJySuZane7YuehP/gzyVpp/q9tq86g4dRko+PyA7VBkyFN1prXcDoaWOiFNw==}
+  openapi-to-postmanv2@6.3.0:
+    resolution: {integrity: sha512-Gx047TkS+GlAVzNlUIz2Kfgk9GquxAvO2P2uQgF/qRPkaF0SGQZ9fVlev3xKaboweXZly1QSnhJOo+yNEFnM6A==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3142,7 +3142,7 @@ snapshots:
       fast-xml-parser: 5.9.3
       json-pointer: 0.6.2
 
-  openapi-to-postmanv2@6.2.0:
+  openapi-to-postmanv2@6.3.0:
     dependencies:
       ajv: 8.20.0
       ajv-draft-04: 1.0.0(ajv@8.20.0)
