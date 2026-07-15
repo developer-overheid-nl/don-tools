@@ -23,8 +23,8 @@ importers:
         specifier: github:developer-overheid-nl/adr-rulesets#main
         version: https://codeload.github.com/developer-overheid-nl/adr-rulesets/tar.gz/da1327dfcc83ed130b1fe5aaa282b7bfba537aee
       '@redocly/openapi-core':
-        specifier: ^2.34.0
-        version: 2.34.0
+        specifier: ^2.39.0
+        version: 2.39.0
       '@redocly/respect-core':
         specifier: ^2.34.0
         version: 2.34.0
@@ -377,11 +377,18 @@ packages:
   '@redocly/ajv@8.18.3':
     resolution: {integrity: sha512-l42u0of3hY98sN2A+M4qTX1O/KrpgGH32Hu9kP2GtHyD5Dfqq86PKFLe5dwaD8DEnNmlOlll2BAmeEtf0DaySg==}
 
-  '@redocly/config@0.49.0':
-    resolution: {integrity: sha512-OI/rpEffX3fKUuy+OuBHPRspRI/S30b9aiqxfZLMpSWZzDncEGPxSEP1O2LrBVshnDX4hLjVjLvCZ4YT85+1rw==}
+  '@redocly/config@0.49.1':
+    resolution: {integrity: sha512-Eid8/bDcsf2bpTJ2qZhULflf6Y/TtoUFZt0+a5XZzjZj0uA8L8EQiY/nEdBd6lZQlZsnu8/cAUhTyBebnLi0gA==}
+
+  '@redocly/config@0.51.0':
+    resolution: {integrity: sha512-XoSkEN28ojqvF1fP8mhOlzHPowpr1/jkvbo3qXKIKXG8RqTiQkLCGTvYdMBjcagEheFFXAsaJKM/GMdoczd4Zg==}
 
   '@redocly/openapi-core@2.34.0':
     resolution: {integrity: sha512-QHdrFT34zJLTwC1vG4QAwSzHMh2Ll545X/u5ScKzVPh8PPmjYVE+jMjVmwlRXyTPKWxOerqbPY7ZOACOCOSfbg==}
+    engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
+
+  '@redocly/openapi-core@2.39.0':
+    resolution: {integrity: sha512-sACPZX1LUf/GLdZ7xyYV7dgZ73gRzi0TVgNXME5OGKVEHPeNv8z91v2KYhuJso8XJ+E5EVpwBU02UEkrKvSycA==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@redocly/respect-core@2.34.0':
@@ -967,6 +974,10 @@ packages:
   graphlib@2.1.8:
     resolution: {integrity: sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==}
 
+  graphql@16.14.2:
+    resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
     engines: {node: '>= 0.4'}
@@ -1391,6 +1402,10 @@ packages:
 
   picomatch@4.0.4:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
   pluralize@8.0.0:
@@ -2018,20 +2033,38 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  '@redocly/config@0.49.0':
+  '@redocly/config@0.49.1':
+    dependencies:
+      json-schema-to-ts: 2.7.2
+
+  '@redocly/config@0.51.0':
     dependencies:
       json-schema-to-ts: 2.7.2
 
   '@redocly/openapi-core@2.34.0':
     dependencies:
       '@redocly/ajv': 8.18.3
-      '@redocly/config': 0.49.0
+      '@redocly/config': 0.49.1
       ajv: '@redocly/ajv@8.18.1'
       ajv-formats: 3.0.1(@redocly/ajv@8.18.1)
       colorette: 1.4.0
       js-levenshtein: 1.1.6
       js-yaml: 4.3.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
+      pluralize: 8.0.0
+      yaml-ast-parser: 0.0.43
+
+  '@redocly/openapi-core@2.39.0':
+    dependencies:
+      '@redocly/ajv': 8.18.3
+      '@redocly/config': 0.51.0
+      ajv: '@redocly/ajv@8.18.1'
+      ajv-formats: 3.0.1(@redocly/ajv@8.18.1)
+      colorette: 1.4.0
+      graphql: 16.14.2
+      js-levenshtein: 1.1.6
+      js-yaml: 4.3.0
+      picomatch: 4.0.5
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
 
@@ -2767,6 +2800,8 @@ snapshots:
     dependencies:
       lodash: 4.18.1
 
+  graphql@16.14.2: {}
+
   has-bigints@1.1.0: {}
 
   has-flag@4.0.0: {}
@@ -3186,6 +3221,8 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.4: {}
+
+  picomatch@4.0.5: {}
 
   pluralize@8.0.0: {}
 
