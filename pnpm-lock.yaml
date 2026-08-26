@@ -25,7 +25,7 @@ importers:
         version: https://codeload.github.com/developer-overheid-nl/adr-rulesets/tar.gz/da1327dfcc83ed130b1fe5aaa282b7bfba537aee
       '@redocly/openapi-core':
         specifier: ^2.46.2
-        version: 2.46.2
+        version: 2.47.0
       '@redocly/respect-core':
         specifier: ^2.46.2
         version: 2.46.2
@@ -365,6 +365,10 @@ packages:
 
   '@redocly/openapi-core@2.46.2':
     resolution: {integrity: sha512-RWbV3vc5/w1L/ye8uC+WtEZ3jwdAxfCokLrGd7fB1sZ8hEzkNVmPUv2+y+ainRsoNyahPP9nM4wtdL2Tb6kYWA==}
+    engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
+
+  '@redocly/openapi-core@2.47.0':
+    resolution: {integrity: sha512-lx4fEeSvWhKagYJGJdEgXWKEBtUthwi0ivcqzScrWZhhM9Vl5REJ/sjFeirSoKIUycrbEAWdin8D8xhOFQgv8g==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@redocly/respect-core@2.46.2':
@@ -1997,7 +2001,21 @@ snapshots:
       graphql: 16.14.2
       js-levenshtein: 1.1.6
       js-yaml: 5.3.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
+      pluralize: 8.0.0
+      yaml-ast-parser: 0.0.43
+
+  '@redocly/openapi-core@2.47.0':
+    dependencies:
+      '@redocly/ajv': 8.18.3
+      '@redocly/config': 0.53.1
+      ajv: '@redocly/ajv@8.18.3'
+      ajv-formats: 3.0.1(@redocly/ajv@8.18.3)
+      colorette: 1.4.0
+      graphql: 16.14.2
+      js-levenshtein: 1.1.6
+      js-yaml: 5.3.0
+      picomatch: 4.0.5
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
 
