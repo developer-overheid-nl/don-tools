@@ -25,7 +25,7 @@ importers:
         version: https://codeload.github.com/developer-overheid-nl/adr-rulesets/tar.gz/da1327dfcc83ed130b1fe5aaa282b7bfba537aee
       '@redocly/openapi-core':
         specifier: ^2.46.2
-        version: 2.46.2
+        version: 2.49.0
       '@redocly/respect-core':
         specifier: ^2.46.2
         version: 2.46.2
@@ -365,6 +365,10 @@ packages:
 
   '@redocly/openapi-core@2.46.2':
     resolution: {integrity: sha512-RWbV3vc5/w1L/ye8uC+WtEZ3jwdAxfCokLrGd7fB1sZ8hEzkNVmPUv2+y+ainRsoNyahPP9nM4wtdL2Tb6kYWA==}
+    engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
+
+  '@redocly/openapi-core@2.49.0':
+    resolution: {integrity: sha512-EoawTPEubDThlHGwJCwHDZgCuEYGWt4iFMDorSWWnSB8ZK1/8PAowohB1U6qumgcuTu0Md0BYSgueL1TNgF7qw==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@redocly/respect-core@2.46.2':
@@ -1119,6 +1123,10 @@ packages:
     resolution: {integrity: sha512-muutsYr+e2+d3rTgUGslq5rxbBlUy3cJ61IsHag2QNDQV+7zXWjkUpmALIajhrlLlrgRUiymj6U3zUr/TMK84Q==}
     hasBin: true
 
+  js-yaml@5.4.1:
+    resolution: {integrity: sha512-28R/k+NAjeuf7+CKlTxWZVExJGwVVLwY06DgEnOMz2gEpfNkDcD7QvyiVPT0xy0XXhU8vHsd4Ot42OOPdJG7dQ==}
+    hasBin: true
+
   jsep@1.4.0:
     resolution: {integrity: sha512-B7qPcEVE3NVkmSJbaYxvv4cHkVW7DQsZz13pUMrfS8z8Q/BuShN+gcTXrUlPiGqM2/t/EEaI030bpxMqY8gMlw==}
     engines: {node: '>= 10.16.0'}
@@ -1381,6 +1389,10 @@ packages:
 
   picomatch@4.0.5:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.7:
+    resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
 
   pluralize@8.0.0:
@@ -1997,7 +2009,21 @@ snapshots:
       graphql: 16.14.2
       js-levenshtein: 1.1.6
       js-yaml: 5.3.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
+      pluralize: 8.0.0
+      yaml-ast-parser: 0.0.43
+
+  '@redocly/openapi-core@2.49.0':
+    dependencies:
+      '@redocly/ajv': 8.18.3
+      '@redocly/config': 0.53.1
+      ajv: '@redocly/ajv@8.18.3'
+      ajv-formats: 3.0.1(@redocly/ajv@8.18.3)
+      colorette: 1.4.0
+      graphql: 16.14.2
+      js-levenshtein: 1.1.6
+      js-yaml: 5.4.1
+      picomatch: 4.0.7
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
 
@@ -2914,6 +2940,10 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
+  js-yaml@5.4.1:
+    dependencies:
+      argparse: 2.0.1
+
   jsep@1.4.0: {}
 
   json-pointer@0.6.2:
@@ -3171,6 +3201,8 @@ snapshots:
   picomatch@4.0.4: {}
 
   picomatch@4.0.5: {}
+
+  picomatch@4.0.7: {}
 
   pluralize@8.0.0: {}
 
