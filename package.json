@@ -38,26 +38,26 @@
   "dependencies": {
     "@apiture/openapi-down-convert": "^0.14.2",
     "@developer-overheid-nl/adr-rulesets": "github:developer-overheid-nl/adr-rulesets#main",
-    "@redocly/openapi-core": "^2.46.2",
-    "@redocly/respect-core": "^2.46.2",
-    "@scalar/openapi-upgrader": "^0.2.13",
+    "@redocly/openapi-core": "^2.54.3",
+    "@redocly/respect-core": "^2.54.3",
+    "@scalar/openapi-upgrader": "^0.4.0",
     "@stoplight/spectral-core": "^1.23.1",
     "@stoplight/spectral-parsers": "^1.0.5",
-    "case-anything": "^3.1.2",
-    "js-yaml": "^5.3.0",
-    "jszip": "^3.10.1",
+    "case-anything": "^3.1.6",
+    "js-yaml": "^5.4.2",
+    "jszip": "^3.10.2",
     "openapi-to-postmanv2": "^6.3.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.9",
+    "@biomejs/biome": "^2.5.14",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.6.3",
     "@types/pg": "^8.23.1",
     "pg": "^8.23.0",
-    "tsx": "^4.23.12",
-    "typescript": "^6.0.3",
-    "vite": "^8.2.1",
-    "vitest": "^4.1.11"
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
   },
   "peerDependencies": {
     "pg": "^8.23.0"
