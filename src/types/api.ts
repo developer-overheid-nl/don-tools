@@ -9,7 +9,7 @@ export interface OasInput {
   targetVersion?: string;
 }
 
-export type RulesetVersion = "2.0" | "2.1" | "2.2" | "draft";
+export type RulesetVersion = "2.0" | "2.1" | "2.2";
 
 export interface ValidateInput extends OasInput {
   targetVersion?: RulesetVersion;

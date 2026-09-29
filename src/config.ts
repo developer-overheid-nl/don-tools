@@ -6,6 +6,7 @@ const parseInt10 = (value: string | undefined, fallback: number): number => {
 
 export const config = {
   oasFetchTimeoutMs: parseInt10(process.env.OAS_FETCH_TIMEOUT_MS, 45000),
+  validatorTimeoutMs: parseInt10(process.env.VALIDATOR_TIMEOUT_MS, 60000),
   keycloak: {
     baseUrl: process.env.KEYCLOAK_BASE_URL ?? "",
     realm: process.env.KEYCLOAK_REALM ?? "",

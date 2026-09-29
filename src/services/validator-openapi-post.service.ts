@@ -1,29 +1,20 @@
+import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import spectralCore from "@stoplight/spectral-core";
-import spectralParsers from "@stoplight/spectral-parsers";
-import adr20 from "@developer-overheid-nl/adr-rulesets/rulesets/adr-20";
-import adr21 from "@developer-overheid-nl/adr-rulesets/rulesets/adr-21";
-import adr22 from "@developer-overheid-nl/adr-rulesets/rulesets/adr-22";
-import adrDraft from "@developer-overheid-nl/adr-rulesets/rulesets/adr-draft";
+import { fileURLToPath } from "node:url";
+import { config } from "../config.js";
 import { resolveOasInput } from "../helpers/oas-input.helper.js";
 import type { LintResult, RulesetVersion, ValidateInput } from "../types/api.js";
 
-const { Spectral, Document } = spectralCore;
-type SpectralInstance = InstanceType<typeof Spectral>;
-const Parsers = spectralParsers;
+// don-checker only publishes a CLI bundle (no library exports), so we run it as
+// a child process: the spec goes in on stdin, diagnostics come back as JSON.
+const DON_CHECKER_CLI = fileURLToPath(import.meta.resolve("@developer-overheid-nl/don-checker/dist/cli.mjs"));
 
-const buildSpectral = (ruleset: unknown): SpectralInstance => {
-  const instance = new Spectral();
-  // biome-ignore lint/suspicious/noExplicitAny: spectral ruleset typing is loose
-  instance.setRuleset(ruleset as any);
-  return instance;
-};
-
-const SPECTRAL_INSTANCES: Record<RulesetVersion, SpectralInstance> = {
-  "2.0": buildSpectral(adr20),
-  "2.1": buildSpectral(adr21),
-  "2.2": buildSpectral(adr22),
-  draft: buildSpectral(adrDraft),
+// Public ruleset versions mapped onto don-checker's `adr` standard versions.
+// don-checker has no 2.2 release; its `werkversie` tracks the latest ADR draft.
+const DON_CHECKER_VERSIONS: Record<RulesetVersion, string> = {
+  "2.0": "2.0.2",
+  "2.1": "2.1.0",
+  "2.2": "werkversie",
 };
 
 const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
@@ -52,28 +43,30 @@ const MEASURED_RULE_GROUPS: Record<string, string> = {
 
 const MEASURED_GROUP_KEYS = Array.from(new Set(Object.values(MEASURED_RULE_GROUPS)));
 
-interface SpectralDiagnostic {
-  code?: string | number;
-  severity?: number;
+interface DonCheckerDiagnostic {
+  code?: string;
+  severity?: string;
   message: string;
   path?: Array<string | number>;
 }
 
-const buildInfo = (lintMessageId: string, diagnostic: SpectralDiagnostic) => {
+interface DonCheckerOutput {
+  diagnostics: DonCheckerDiagnostic[];
+}
+
+const buildInfo = (lintMessageId: string, diagnostic: DonCheckerDiagnostic) => {
   const pathValue =
     Array.isArray(diagnostic.path) && diagnostic.path.length > 0 ? diagnostic.path.map(String).join(".") : "body";
   return [{ id: randomUUID(), lintMessageId, message: diagnostic.message, path: pathValue }];
 };
 
-const mapDiagnosticsToMessages = (diagnostics: SpectralDiagnostic[], timestamp: string) =>
+const mapDiagnosticsToMessages = (diagnostics: DonCheckerDiagnostic[], timestamp: string) =>
   diagnostics.map((diagnostic) => {
     const lintMessageId = randomUUID();
-    const severityIndex =
-      typeof diagnostic.severity === "number" && diagnostic.severity >= 0 ? diagnostic.severity : 2;
-    const severity = SEVERITY_LABELS[severityIndex] ?? "info";
+    const severity = SEVERITY_LABELS.find((label) => label === diagnostic.severity) ?? "info";
     return {
       id: lintMessageId,
-      code: diagnostic.code != null ? String(diagnostic.code) : "spectral",
+      code: diagnostic.code || "spectral",
       createdAt: timestamp,
       severity,
       infos: buildInfo(lintMessageId, diagnostic),
@@ -92,7 +85,7 @@ const computeAdrScore = (messages: Array<{ severity: string; code: string }>): {
   return { score: Math.max(0, Math.min(100, score)) };
 };
 
-const buildLintResult = (diagnostics: SpectralDiagnostic[], rulesetVersion: string): LintResult => {
+const buildLintResult = (diagnostics: DonCheckerDiagnostic[], rulesetVersion: string): LintResult => {
   const timestamp = new Date().toISOString();
   const messages = mapDiagnosticsToMessages(diagnostics, timestamp);
   const errorCount = messages.filter((m) => String(m.severity).toLowerCase() === "error").length;
@@ -109,12 +102,40 @@ const buildLintResult = (diagnostics: SpectralDiagnostic[], rulesetVersion: stri
   };
 };
 
+const runDonChecker = (contents: string, version: string): Promise<DonCheckerDiagnostic[]> =>
+  new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      [DON_CHECKER_CLI, "validate", "--standard", "adr", "--version", version, "--format", "json", "--fail-on", "none"],
+      { stdio: ["pipe", "pipe", "pipe"], timeout: config.validatorTimeoutMs },
+    );
+    const stdout: Buffer[] = [];
+    const stderr: Buffer[] = [];
+    child.stdout.on("data", (chunk: Buffer) => stdout.push(chunk));
+    child.stderr.on("data", (chunk: Buffer) => stderr.push(chunk));
+    child.on("error", reject);
+    child.on("close", (code, signal) => {
+      if (code !== 0) {
+        const detail = Buffer.concat(stderr).toString("utf8").trim() || `exit code ${code ?? signal}`;
+        reject(new Error(`don-checker validatie is mislukt: ${detail}`));
+        return;
+      }
+      try {
+        const output = JSON.parse(Buffer.concat(stdout).toString("utf8")) as DonCheckerOutput;
+        resolve(Array.isArray(output.diagnostics) ? output.diagnostics : []);
+      } catch (error) {
+        reject(new Error("don-checker gaf geen geldige JSON-output terug.", { cause: error }));
+      }
+    });
+    // The CLI may exit before reading all of stdin (e.g. on a startup error);
+    // the close handler reports that, so an EPIPE here is not interesting.
+    child.stdin.on("error", () => {});
+    child.stdin.end(contents);
+  });
+
 export const validatorOpenAPIPost = async (input: ValidateInput): Promise<LintResult> => {
-  const { contents, source } = await resolveOasInput(input);
+  const { contents } = await resolveOasInput(input);
   const rulesetVersion: RulesetVersion = input.targetVersion ?? DEFAULT_RULESET_VERSION;
-  const spectral = SPECTRAL_INSTANCES[rulesetVersion];
-  const document = new Document(contents, Parsers.Yaml, source);
-  const parseDiagnostics = (Array.isArray(document.diagnostics) ? document.diagnostics : []) as SpectralDiagnostic[];
-  const lintDiagnostics = (await spectral.run(document, { ignoreUnknownFormat: false })) as SpectralDiagnostic[];
-  return buildLintResult([...parseDiagnostics, ...lintDiagnostics], rulesetVersion);
+  const diagnostics = await runDonChecker(contents, DON_CHECKER_VERSIONS[rulesetVersion]);
+  return buildLintResult(diagnostics, rulesetVersion);
 };

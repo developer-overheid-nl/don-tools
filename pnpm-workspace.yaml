@@ -2,8 +2,6 @@ packages:
   - .
 
 allowBuilds:
-  "@developer-overheid-nl/adr-rulesets": true
-  '@developer-overheid-nl/adr-rulesets@https://codeload.github.com/developer-overheid-nl/adr-rulesets/tar.gz/da1327dfcc83ed130b1fe5aaa282b7bfba537aee': true
   '@scarf/scarf': false
   esbuild: true
 

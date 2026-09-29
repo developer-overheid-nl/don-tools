@@ -37,12 +37,10 @@
   "private": false,
   "dependencies": {
     "@apiture/openapi-down-convert": "^0.14.2",
-    "@developer-overheid-nl/adr-rulesets": "github:developer-overheid-nl/adr-rulesets#main",
+    "@developer-overheid-nl/don-checker": "^1.2.1",
     "@redocly/openapi-core": "^2.46.2",
     "@redocly/respect-core": "^2.46.2",
     "@scalar/openapi-upgrader": "^0.2.13",
-    "@stoplight/spectral-core": "^1.23.1",
-    "@stoplight/spectral-parsers": "^1.0.5",
     "case-anything": "^3.1.2",
     "js-yaml": "^5.3.0",
     "jszip": "^3.10.1",

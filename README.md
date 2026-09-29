@@ -51,7 +51,7 @@ Belangrijkste exports:
 
 Vereisten:
 
-- Node.js 22+
+- Node.js 22.18+
 - pnpm 11+
 
 Setup:
@@ -94,9 +94,11 @@ Controleer voor publishen:
 - `dist/` is opnieuw gebouwd
 - `npm pack --dry-run` toont alleen bestanden die je verwacht
 
-Let op: dit package gebruikt nu nog `@developer-overheid-nl/adr-rulesets` via GitHub. Als je
-installaties helemaal onafhankelijk van GitHub tokens wilt maken, publiceer die dependency ook naar
-npm of vervang hem door een npm-versie.
+`validatorOpenAPIPost` valideert tegen de API Design Rules met
+[`@developer-overheid-nl/don-checker`](https://github.com/developer-overheid-nl/don-checker). Die
+publiceert alleen een CLI, dus de validator start die als child process (spec via stdin, JSON-output).
+De timeout is instelbaar met `VALIDATOR_TIMEOUT_MS` (standaard 60000). `targetVersion` `2.0` en `2.1`
+lopen tegen don-checker `2.0.2` en `2.1.0`; `2.2` loopt tegen de don-checker `werkversie`.
 
 ## Gebruiken vanuit `don-tools-api`
 
