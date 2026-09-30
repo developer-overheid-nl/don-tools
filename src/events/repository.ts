@@ -42,7 +42,7 @@ const toRecord = (row: EventRow): EventRecord => ({
 
 const orNull = (value: string | undefined): string | null => (value === undefined || value === "" ? null : value);
 
-// PostgreSQL adapter of EventStore; the schema is created by hand (db/*.sql in don-tools-api).
+// PostgreSQL adapter of EventStore; the events table is created by hand on each environment.
 export class EventsRepository implements EventStore {
   constructor(private readonly pool: Pool) {}
 
