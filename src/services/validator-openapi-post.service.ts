@@ -10,28 +10,27 @@ import type { LintResult, RulesetVersion, ValidateInput } from "../types/api.js"
 // a child process: the spec goes in on stdin, diagnostics come back as JSON.
 const DON_CHECKER_CLI = fileURLToPath(import.meta.resolve("@developer-overheid-nl/don-checker/dist/cli.mjs"));
 
-// Public ruleset versions mapped onto don-checker's `adr` standard versions.
-// `draft` maps onto don-checker's `werkversie`, which tracks the latest ADR draft.
-const DON_CHECKER_VERSIONS: Record<RulesetVersion, string> = {
-  "2.0": "2.0.2",
-  "2.1": "2.1.0",
-  "2.2": "2.2.0",
-  draft: "werkversie",
+// Public ruleset versions mapped onto don-checker's `adr` standard versions and the
+// adr-rulesets ruleset each of those runs. `draft` is don-checker's `werkversie`,
+// which tracks the latest ADR draft.
+const ADR_VERSIONS: Record<RulesetVersion, { donChecker: string; ruleset: unknown }> = {
+  "2.0": { donChecker: "2.0.2", ruleset: adr20 },
+  "2.1": { donChecker: "2.1.0", ruleset: adr21 },
+  "2.2": { donChecker: "2.2.0", ruleset: adr22 },
+  draft: { donChecker: "werkversie", ruleset: adrDraft },
 };
 
 const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
 const SEVERITY_LABELS = ["error", "warning", "info", "hint"] as const;
 
-// The ADR rulesets don-checker runs, taken from the same package so the score
-// follows the rules of each version without a hand-maintained list of codes.
-const RULESETS: Record<RulesetVersion, unknown> = { "2.0": adr20, "2.1": adr21, "2.2": adr22, draft: adrDraft };
-
 const ruleSeverity = (rule: unknown): unknown =>
   typeof rule === "object" && rule !== null ? (rule as { severity?: unknown }).severity : rule;
 
-// The score measures the rules a version treats as errors; warnings never fail an API.
+// The score measures the rules a version's ruleset treats as errors; taking them
+// from the ruleset itself avoids a hand-maintained list of codes. Warnings never
+// fail an API.
 const SCORED_RULES: Record<RulesetVersion, Set<string>> = Object.fromEntries(
-  Object.entries(RULESETS).map(([version, ruleset]) => {
+  Object.entries(ADR_VERSIONS).map(([version, { ruleset }]) => {
     const rules = (ruleset as { rules?: Record<string, unknown> }).rules ?? {};
     const codes = Object.entries(rules)
       .filter(([, rule]) => ruleSeverity(rule) === "error")
@@ -139,6 +138,6 @@ const runDonChecker = (contents: string, version: string): Promise<DonCheckerDia
 export const validatorOpenAPIPost = async (input: ValidateInput): Promise<LintResult> => {
   const { contents } = await resolveOasInput(input);
   const rulesetVersion: RulesetVersion = input.targetVersion ?? DEFAULT_RULESET_VERSION;
-  const diagnostics = await runDonChecker(contents, DON_CHECKER_VERSIONS[rulesetVersion]);
+  const diagnostics = await runDonChecker(contents, ADR_VERSIONS[rulesetVersion].donChecker);
   return buildLintResult(diagnostics, rulesetVersion);
 };
