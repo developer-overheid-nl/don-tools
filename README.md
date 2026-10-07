@@ -100,6 +100,11 @@ publiceert alleen een CLI, dus de validator start die als child process (spec vi
 De timeout is instelbaar met `VALIDATOR_TIMEOUT_MS` (standaard 60000). `targetVersion` `2.0`, `2.1` en `2.2`
 lopen tegen don-checker `2.0.2`, `2.1.0` en `2.2.0`; `draft` loopt tegen de don-checker `werkversie`.
 
+De `score` is het percentage regels met severity `error` in de ADR-ruleset van die versie waarop de spec
+niet faalt; warnings tellen niet mee. De regels komen uit `@developer-overheid-nl/adr-rulesets`, hetzelfde
+pakket dat don-checker draait (een test bewaakt dat beide dezelfde versie gebruiken). Een spec die niet
+als OpenAPI te parsen is krijgt score `0`.
+
 ## Gebruiken vanuit `don-tools-api`
 
 Na publicatie kan de v1 API-adapter een expliciete npm-versie gebruiken:

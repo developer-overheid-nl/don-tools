@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { adr20, adr21, adr22, adrDraft } from "@developer-overheid-nl/adr-rulesets/rulesets";
 import { config } from "../config.js";
 import { resolveOasInput } from "../helpers/oas-input.helper.js";
 import type { LintResult, RulesetVersion, ValidateInput } from "../types/api.js";
@@ -21,31 +22,26 @@ const DON_CHECKER_VERSIONS: Record<RulesetVersion, string> = {
 const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
 const SEVERITY_LABELS = ["error", "warning", "info", "hint"] as const;
 
-const MEASURED_RULE_GROUPS: Record<string, string> = {
-  openapi3: "openapi3",
-  "nlgov:openapi3": "openapi3",
-  "openapi-root-exists": "openapi-root-exists",
-  "nlgov:openapi-root-exists": "openapi-root-exists",
-  "paths-open-api-json-resource-exists": "openapi-root-exists",
-  "missing-version-header": "version-header",
-  "nlgov:missing-version-header": "version-header",
-  "missing-header": "version-header",
-  "nlgov:missing-header": "version-header",
-  "include-major-version-in-uri": "include-major-version-in-uri",
-  "nlgov:include-major-version-in-uri": "include-major-version-in-uri",
-  "paths-no-trailing-slash": "paths-no-trailing-slash",
-  "nlgov:paths-no-trailing-slash": "paths-no-trailing-slash",
-  "path-keys-no-trailing-slash": "paths-no-trailing-slash",
-  "info-contact-fields-exist": "info-contact-fields-exist",
-  "nlgov:info-contact-fields-exist": "info-contact-fields-exist",
-  "info-contact": "info-contact-fields-exist",
-  "http-methods": "http-methods",
-  "nlgov:http-methods": "http-methods",
-  semver: "semver",
-  "nlgov:semver": "semver",
-};
+// The ADR rulesets don-checker runs, taken from the same package so the score
+// follows the rules of each version without a hand-maintained list of codes.
+const RULESETS: Record<RulesetVersion, unknown> = { "2.0": adr20, "2.1": adr21, "2.2": adr22, draft: adrDraft };
 
-const MEASURED_GROUP_KEYS = Array.from(new Set(Object.values(MEASURED_RULE_GROUPS)));
+const ruleSeverity = (rule: unknown): unknown =>
+  typeof rule === "object" && rule !== null ? (rule as { severity?: unknown }).severity : rule;
+
+// The score measures the rules a version treats as errors; warnings never fail an API.
+const SCORED_RULES: Record<RulesetVersion, Set<string>> = Object.fromEntries(
+  Object.entries(RULESETS).map(([version, ruleset]) => {
+    const rules = (ruleset as { rules?: Record<string, unknown> }).rules ?? {};
+    const codes = Object.entries(rules)
+      .filter(([, rule]) => ruleSeverity(rule) === "error")
+      .map(([code]) => code);
+    return [version, new Set(codes)];
+  }),
+) as Record<RulesetVersion, Set<string>>;
+
+// Diagnostics meaning the document could not be checked as OpenAPI at all.
+const UNCHECKABLE_CODES = new Set(["parser", "unrecognized-format"]);
 
 interface DonCheckerDiagnostic {
   code?: string;
@@ -77,23 +73,26 @@ const mapDiagnosticsToMessages = (diagnostics: DonCheckerDiagnostic[], timestamp
     };
   });
 
-const computeAdrScore = (messages: Array<{ severity: string; code: string }>): { score: number } => {
-  const failedGroups = new Set<string>();
-  for (const message of messages) {
-    if (String(message.severity).toLowerCase() !== "error") continue;
-    const group = MEASURED_RULE_GROUPS[message.code];
-    if (group) failedGroups.add(group);
-  }
-  if (MEASURED_GROUP_KEYS.length === 0) return { score: 100 };
-  const score = Math.round((1 - failedGroups.size / MEASURED_GROUP_KEYS.length) * 100);
-  return { score: Math.max(0, Math.min(100, score)) };
+const computeAdrScore = (
+  messages: Array<{ severity: string; code: string }>,
+  rulesetVersion: RulesetVersion,
+): { score: number } => {
+  if (messages.some((message) => UNCHECKABLE_CODES.has(message.code))) return { score: 0 };
+  const scoredRules = SCORED_RULES[rulesetVersion];
+  const failedRules = new Set(
+    messages
+      .filter((message) => message.severity === "error" && scoredRules.has(message.code))
+      .map((message) => message.code),
+  );
+  if (scoredRules.size === 0) return { score: 100 };
+  return { score: Math.round((1 - failedRules.size / scoredRules.size) * 100) };
 };
 
-const buildLintResult = (diagnostics: DonCheckerDiagnostic[], rulesetVersion: string): LintResult => {
+const buildLintResult = (diagnostics: DonCheckerDiagnostic[], rulesetVersion: RulesetVersion): LintResult => {
   const timestamp = new Date().toISOString();
   const messages = mapDiagnosticsToMessages(diagnostics, timestamp);
   const errorCount = messages.filter((m) => String(m.severity).toLowerCase() === "error").length;
-  const { score } = computeAdrScore(messages);
+  const { score } = computeAdrScore(messages, rulesetVersion);
   return {
     id: randomUUID(),
     apiId: "",

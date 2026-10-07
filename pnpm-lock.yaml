@@ -20,6 +20,9 @@ importers:
       '@apiture/openapi-down-convert':
         specifier: ^0.14.2
         version: 0.14.2
+      '@developer-overheid-nl/adr-rulesets':
+        specifier: ^0.0.2
+        version: 0.0.2
       '@developer-overheid-nl/don-checker':
         specifier: ^1.3.0
         version: 1.3.0(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.4)(@codemirror/search@6.7.2)(@codemirror/state@6.7.6)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.13)(codemirror@6.0.2)(esbuild@0.28.2)(eslint@10.11.0(supports-color@7.2.0))(immer@9.0.21)(supports-color@7.2.0)(tsx@4.23.15)(typescript@6.0.3)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.6.2)(vite@8.3.0(@types/node@26.6.2)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.0)))

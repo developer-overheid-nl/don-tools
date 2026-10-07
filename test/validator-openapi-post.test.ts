@@ -1,3 +1,5 @@
+import { readFileSync, realpathSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { validatorOpenAPIPost } from "../src/services/validator-openapi-post.service.js";
 
@@ -77,7 +79,7 @@ describe("validatorOpenAPIPost", () => {
     expect(trailingSlash?.infos?.[0]).toMatchObject({ lintMessageId: trailingSlash?.id, path: "paths./pets/" });
   });
 
-  it("scores the renamed and nlgov:-prefixed rule codes of ADR 2.2", async () => {
+  it("scores the share of the version's error rules that pass", async () => {
     const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(invalidSpec), targetVersion: "2.2" });
     const codes = result.messages?.map((message) => message.code);
 
@@ -90,9 +92,8 @@ describe("validatorOpenAPIPost", () => {
         "info-contact",
       ]),
     );
-    // version-header, include-major-version-in-uri, paths-no-trailing-slash, semver and
-    // info-contact-fields-exist fail; openapi3, openapi-root-exists and http-methods pass.
-    expect(result.score).toBe(38);
+    // 5 of the 28 error rules in ADR 2.2.0 fail.
+    expect(result.score).toBe(82);
   });
 
   it("reports parser errors for unparseable input instead of throwing", async () => {
@@ -101,5 +102,16 @@ describe("validatorOpenAPIPost", () => {
     expect(result.rulesetVersion).toBe("2.2");
     expect(result.messages?.some((message) => message.code === "parser" && message.severity === "error")).toBe(true);
     expect(result.messages?.find((message) => message.code === "parser")?.infos?.[0]?.path).toBe("body");
+    expect(result.score).toBe(0);
+    expect(result.successes).toBe(false);
+  });
+
+  it("scores against the same adr-rulesets release that don-checker runs", () => {
+    const scope = join(process.cwd(), "node_modules", "@developer-overheid-nl");
+    const versionAt = (dir: string) => JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).version;
+    // pnpm installs don-checker's own dependencies next to its real package directory.
+    const checkerRulesets = join(realpathSync(join(scope, "don-checker")), "..", "adr-rulesets");
+
+    expect(versionAt(join(scope, "adr-rulesets"))).toBe(versionAt(checkerRulesets));
   });
 });
