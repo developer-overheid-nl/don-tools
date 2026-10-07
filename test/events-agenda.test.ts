@@ -44,8 +44,8 @@ const store = (overrides: Partial<EventStore> = {}): EventStore => ({
 const status = (value: number) => ({ name: "HttpError", status: value }) satisfies Partial<HttpError>;
 
 describe("EventAgenda", () => {
-  it("formats records with the offset of the time zone and without empty fields", async () => {
-    const agenda = new EventAgenda(store({ get: async () => record() }), "Europe/Amsterdam");
+  it("formats records with the Dutch offset and without empty fields", async () => {
+    const agenda = new EventAgenda(store({ get: async () => record() }));
     expect(await agenda.get("id")).toEqual({
       id: "0f8d3c1e-7a3b-4f5e-9b1a-2c6d4e8f0a12",
       title: "PGDay Lowlands 2026",
@@ -68,7 +68,6 @@ describe("EventAgenda", () => {
           return { events: [record()], total: 41 };
         },
       }),
-      "UTC",
     );
     expect(await agenda.list({ page: 3, perPage: 20 })).toMatchObject({ total: 41, page: 3, totalPages: 3 });
     expect(offset).toBe(40);
@@ -81,7 +80,6 @@ describe("EventAgenda", () => {
         update: async (id) => (id === "gone" ? { status: "not_found" } : { status: "harvested" }),
         remove: async () => false,
       }),
-      "UTC",
     );
     await expect(agenda.get("gone")).rejects.toMatchObject(status(404));
     await expect(agenda.update("gone", input)).rejects.toMatchObject(status(404));
@@ -90,7 +88,7 @@ describe("EventAgenda", () => {
   });
 
   it("rejects invalid input before touching the store", async () => {
-    const agenda = new EventAgenda(store(), "UTC");
+    const agenda = new EventAgenda(store());
     await expect(agenda.create({ ...input, title: "   " })).rejects.toMatchObject(status(400));
     await expect(agenda.create({ ...input, url: "javascript:alert(1)" })).rejects.toMatchObject(status(400));
     await expect(agenda.create({ ...input, endsAt: "2026-09-10T08:00:00+02:00" })).rejects.toMatchObject(status(400));
@@ -106,7 +104,6 @@ describe("EventAgenda", () => {
             throw error;
           },
         }),
-        "UTC",
       );
     await expect(failing(outage).get("id")).rejects.toMatchObject(status(503));
     await expect(failing(bug).get("id")).rejects.toBe(bug);

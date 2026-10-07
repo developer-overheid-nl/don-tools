@@ -1,5 +1,6 @@
-import { isHttpUrl, parseDateTime } from "./datetime.js";
+import { parseDateTime } from "./datetime.js";
 import type { HarvestedEvent } from "./types.js";
+import { isHttpUrl } from "./url.js";
 
 // Pleio disables introspection, so this is a fixed query; event fields must be inside `... on Event`.
 export const PLEIO_EVENTS_QUERY = `

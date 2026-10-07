@@ -1,7 +1,8 @@
 import { HttpError } from "../utils/problem-details.js";
 import { isDatabaseUnavailable } from "./database.js";
-import { formatDateTime, isHttpUrl, parseDateTime } from "./datetime.js";
+import { formatDateTime, parseDateTime } from "./datetime.js";
 import type { AgendaEvent, EventFields, EventInput, EventRecord, EventSource, EventStore } from "./types.js";
+import { isHttpUrl } from "./url.js";
 
 export type ListEventsQuery = {
   page: number;
@@ -23,10 +24,7 @@ const notFound = (id: string) => new HttpError(404, `Event ${id} does not exist`
 
 // Rules of the events agenda on top of an EventStore; failures are HttpErrors, like the other tools.
 export class EventAgenda {
-  constructor(
-    private readonly store: EventStore,
-    private readonly timeZone: string,
-  ) {}
+  constructor(private readonly store: EventStore) {}
 
   async list(query: ListEventsQuery): Promise<EventPage> {
     const { events, total } = await this.call((store) =>
@@ -78,14 +76,14 @@ export class EventAgenda {
       id: record.id,
       title: record.title,
       ...(record.summary ? { summary: record.summary } : {}),
-      startsAt: formatDateTime(record.startsAt, this.timeZone),
-      endsAt: formatDateTime(record.endsAt, this.timeZone),
+      startsAt: formatDateTime(record.startsAt),
+      endsAt: formatDateTime(record.endsAt),
       ...(record.location ? { location: record.location } : {}),
       url: record.url,
       source: record.source,
       ...(record.sourceName ? { sourceName: record.sourceName } : {}),
-      createdAt: formatDateTime(record.createdAt, this.timeZone),
-      updatedAt: formatDateTime(record.updatedAt, this.timeZone),
+      createdAt: formatDateTime(record.createdAt),
+      updatedAt: formatDateTime(record.updatedAt),
     };
   }
 

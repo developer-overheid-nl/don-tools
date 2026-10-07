@@ -116,8 +116,7 @@ describe("fetchUpcomingEvents", () => {
 
 describe("formatDateTime", () => {
   it("includes the offset of the time zone, also across daylight saving time", () => {
-    expect(formatDateTime(new Date("2026-07-01T10:00:00.123Z"), "Europe/Amsterdam")).toBe("2026-07-01T12:00:00+02:00");
-    expect(formatDateTime(new Date("2026-12-01T10:00:00Z"), "Europe/Amsterdam")).toBe("2026-12-01T11:00:00+01:00");
-    expect(formatDateTime(new Date("2026-12-01T10:00:00Z"), "UTC")).toBe("2026-12-01T10:00:00Z");
+    expect(formatDateTime(new Date("2026-07-01T10:00:00.123Z"))).toBe("2026-07-01T12:00:00+02:00");
+    expect(formatDateTime(new Date("2026-12-01T10:00:00Z"))).toBe("2026-12-01T11:00:00+01:00");
   });
 });
