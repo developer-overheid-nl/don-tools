@@ -2,6 +2,7 @@ packages:
   - .
 
 allowBuilds:
+  '@developer-overheid-nl/adr-rulesets': false
   '@scarf/scarf': false
   esbuild: true
 

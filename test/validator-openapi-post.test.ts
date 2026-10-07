@@ -1,24 +1,34 @@
 import { describe, expect, it } from "vitest";
 import { validatorOpenAPIPost } from "../src/services/validator-openapi-post.service.js";
 
+const okResponse = (headers: Record<string, unknown> = {}) => ({
+  200: {
+    description: "OK",
+    headers: { "API-Version": { schema: { type: "string" } }, ...headers },
+  },
+});
+
 const validSpec = {
   openapi: "3.0.3",
   info: {
     title: "Test API",
+    description: "Test API",
     version: "1.0.0",
     contact: { name: "Team", email: "team@example.org", url: "https://example.org" },
   },
   servers: [{ url: "https://api.example.org/v1" }],
+  tags: [{ name: "meta" }, { name: "pets" }],
   paths: {
-    "/pets": {
+    "/openapi.json": {
       get: {
-        responses: {
-          200: {
-            description: "OK",
-            headers: { "API-Version": { schema: { type: "string" } } },
-          },
-        },
+        operationId: "getOpenApi",
+        description: "OpenAPI document",
+        tags: ["meta"],
+        responses: okResponse({ "access-control-allow-origin": { schema: { type: "string", enum: ["*"] } } }),
       },
+    },
+    "/pets": {
+      get: { operationId: "listPets", description: "List pets", tags: ["pets"], responses: okResponse() },
     },
   },
 };
@@ -31,15 +41,24 @@ const invalidSpec = {
 };
 
 describe("validatorOpenAPIPost", () => {
-  it("returns a passing LintResult for a compliant spec", async () => {
+  it("defaults to ruleset version 2.1", async () => {
     const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(validSpec) });
 
     expect(result.rulesetVersion).toBe("2.1");
-    expect(result.failures).toBe(0);
-    expect(result.score).toBe(100);
-    expect(result.successes).toBe(true);
-    expect(result.messages).toEqual([]);
   });
+
+  it.each(["2.0", "2.1", "2.2", "draft"] as const)(
+    "returns a passing LintResult for a compliant spec (%s)",
+    async (targetVersion) => {
+      const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(validSpec), targetVersion });
+
+      expect(result.rulesetVersion).toBe(targetVersion);
+      expect(result.failures).toBe(0);
+      expect(result.score).toBe(100);
+      expect(result.successes).toBe(true);
+      expect(result.messages).toEqual([]);
+    },
+  );
 
   it("maps don-checker diagnostics onto lint messages and scores measured rules", async () => {
     const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(invalidSpec), targetVersion: "2.0" });
@@ -56,6 +75,24 @@ describe("validatorOpenAPIPost", () => {
     const trailingSlash = result.messages?.find((message) => message.code === "paths-no-trailing-slash");
     expect(trailingSlash).toMatchObject({ severity: "error", createdAt: expect.any(String), id: expect.any(String) });
     expect(trailingSlash?.infos?.[0]).toMatchObject({ lintMessageId: trailingSlash?.id, path: "paths./pets/" });
+  });
+
+  it("scores the renamed and nlgov:-prefixed rule codes of ADR 2.2", async () => {
+    const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(invalidSpec), targetVersion: "2.2" });
+    const codes = result.messages?.map((message) => message.code);
+
+    expect(codes).toEqual(
+      expect.arrayContaining([
+        "nlgov:missing-header",
+        "nlgov:include-major-version-in-uri",
+        "path-keys-no-trailing-slash",
+        "nlgov:semver",
+        "info-contact",
+      ]),
+    );
+    // version-header, include-major-version-in-uri, paths-no-trailing-slash, semver and
+    // info-contact-fields-exist fail; openapi3, openapi-root-exists and http-methods pass.
+    expect(result.score).toBe(38);
   });
 
   it("reports parser errors for unparseable input instead of throwing", async () => {

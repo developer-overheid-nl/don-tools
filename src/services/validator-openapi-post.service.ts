@@ -10,11 +10,12 @@ import type { LintResult, RulesetVersion, ValidateInput } from "../types/api.js"
 const DON_CHECKER_CLI = fileURLToPath(import.meta.resolve("@developer-overheid-nl/don-checker/dist/cli.mjs"));
 
 // Public ruleset versions mapped onto don-checker's `adr` standard versions.
-// don-checker has no 2.2 release; its `werkversie` tracks the latest ADR draft.
+// `draft` maps onto don-checker's `werkversie`, which tracks the latest ADR draft.
 const DON_CHECKER_VERSIONS: Record<RulesetVersion, string> = {
   "2.0": "2.0.2",
   "2.1": "2.1.0",
-  "2.2": "werkversie",
+  "2.2": "2.2.0",
+  draft: "werkversie",
 };
 
 const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
@@ -25,6 +26,7 @@ const MEASURED_RULE_GROUPS: Record<string, string> = {
   "nlgov:openapi3": "openapi3",
   "openapi-root-exists": "openapi-root-exists",
   "nlgov:openapi-root-exists": "openapi-root-exists",
+  "paths-open-api-json-resource-exists": "openapi-root-exists",
   "missing-version-header": "version-header",
   "nlgov:missing-version-header": "version-header",
   "missing-header": "version-header",
@@ -33,8 +35,10 @@ const MEASURED_RULE_GROUPS: Record<string, string> = {
   "nlgov:include-major-version-in-uri": "include-major-version-in-uri",
   "paths-no-trailing-slash": "paths-no-trailing-slash",
   "nlgov:paths-no-trailing-slash": "paths-no-trailing-slash",
+  "path-keys-no-trailing-slash": "paths-no-trailing-slash",
   "info-contact-fields-exist": "info-contact-fields-exist",
   "nlgov:info-contact-fields-exist": "info-contact-fields-exist",
+  "info-contact": "info-contact-fields-exist",
   "http-methods": "http-methods",
   "nlgov:http-methods": "http-methods",
   semver: "semver",
