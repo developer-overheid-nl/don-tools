@@ -16,6 +16,7 @@ andere runtime kan dezelfde logica later ook rechtstreeks gebruiken.
 - OpenAPI documenten converteren naar Postman collections
 - Markdown en Mermaid genereren voor Arazzo workflows
 - Keycloak clients aanmaken voor API-keyachtige toegang
+- Events-agenda: regels, PostgreSQL-opslag en een Pleio-harvester (`src/events/`)
 
 ## Publieke API
 
@@ -45,6 +46,8 @@ Belangrijkste exports:
 - `fetchSpecification`
 - `resolveOasInput`
 - `HttpError`
+- events: `EventAgenda` (regels op een `EventStore`), `EventsRepository` (PostgreSQL-adapter),
+  `runPleioHarvest`/`harvestPleio`, `fetchUpcomingEvents`, `formatDateTime`
 - publieke input- en resulttypes
 
 ## Ontwikkelen
@@ -110,11 +113,25 @@ npm install @developer-overheid-nl/don-tools@<version>
 Gebruik in CI/CD liever een npm-versie dan een GitHub dependency. Dat voorkomt SSH-key- en
 repository-tokenproblemen tijdens installs en Docker builds.
 
+Om een wijziging vóór publicatie te testen, koppel je de lokale checkout:
+
+```sh
+pnpm build
+cd ../don-tools-api
+npm install @developer-overheid-nl/don-tools@file:../don-tools
+```
+
+Commit die `file:`-dependency niet; zet hem na publicatie terug naar de npm-versie.
+
+De events-code gebruikt `pg` alleen als type: de API maakt de `Pool` en geeft die mee. `pg` is
+daarom een optionele peer dependency.
+
 ## Repository-indeling
 
 ```text
 src/index.ts       Publieke package exports
 src/services/      Businesslogica per tool
+src/events/        Events-agenda: regels, PostgreSQL-opslag en Pleio-harvester
 src/helpers/       Gedeelde helpers voor input, Arazzo en Keycloak
 src/utils/         Algemene utilities en problem-details fouten
 src/types/         Publieke TypeScript types en dependency shims

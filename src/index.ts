@@ -12,6 +12,8 @@ export { resolveOasInput, type ResolvedOasInput } from "./helpers/oas-input.help
 export { KeycloakClient, KeycloakError, translateKeycloakError } from "./helpers/keycloak.helper.js";
 
 export { HttpError, statusText, toProblemDetails } from "./utils/problem-details.js";
+
+export * from "./events/index.js";
 export type {
   KeycloakClientResult,
   LintMessage,
