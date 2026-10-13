@@ -1,24 +1,32 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { adr20, adr21, adr22, adrDraft } from "@developer-overheid-nl/adr-rulesets/rulesets";
+import { type AdrVersion, adrVersions } from "@developer-overheid-nl/adr-rulesets/versions";
 import { config } from "../config.js";
 import { resolveOasInput } from "../helpers/oas-input.helper.js";
-import type { LintResult, RulesetVersion, ValidateInput } from "../types/api.js";
+import { type LintResult, RULESET_VERSIONS, type RulesetVersion, type ValidateInput } from "../types/api.js";
 
 // don-checker only publishes a CLI bundle (no library exports), so we run it as
 // a child process: the spec goes in on stdin, diagnostics come back as JSON.
 const DON_CHECKER_CLI = fileURLToPath(import.meta.resolve("@developer-overheid-nl/don-checker/dist/cli.mjs"));
 
-// Public ruleset versions mapped onto don-checker's `adr` standard versions and the
-// adr-rulesets ruleset each of those runs. `draft` is don-checker's `werkversie`,
-// which tracks the latest ADR draft.
-const ADR_VERSIONS: Record<RulesetVersion, { donChecker: string; ruleset: unknown }> = {
-  "2.0": { donChecker: "2.0.2", ruleset: adr20 },
-  "2.1": { donChecker: "2.1.0", ruleset: adr21 },
-  "2.2": { donChecker: "2.2.0", ruleset: adr22 },
-  draft: { donChecker: "werkversie", ruleset: adrDraft },
+// The public ruleset versions resolve onto the ADR versions that adr-rulesets
+// (and therefore don-checker) ships: `2.2` is the newest final 2.2.x release and
+// `draft` is the draft version (don-checker's `werkversie`).
+const resolveAdrVersion = (rulesetVersion: RulesetVersion): AdrVersion => {
+  const adrVersion =
+    rulesetVersion === "draft"
+      ? adrVersions.findLast((version) => version.status === "draft")
+      : adrVersions.findLast((version) => version.status === "final" && version.id.startsWith(`${rulesetVersion}.`));
+  if (!adrVersion) {
+    throw new Error(`Geen ADR-versie in @developer-overheid-nl/adr-rulesets voor targetVersion ${rulesetVersion}.`);
+  }
+  return adrVersion;
 };
+
+const ADR_VERSIONS = Object.fromEntries(
+  RULESET_VERSIONS.map((rulesetVersion) => [rulesetVersion, resolveAdrVersion(rulesetVersion)]),
+) as Record<RulesetVersion, AdrVersion>;
 
 const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
 const SEVERITY_LABELS = ["error", "warning", "info", "hint"] as const;
@@ -138,6 +146,6 @@ const runDonChecker = (contents: string, version: string): Promise<DonCheckerDia
 export const validatorOpenAPIPost = async (input: ValidateInput): Promise<LintResult> => {
   const { contents } = await resolveOasInput(input);
   const rulesetVersion: RulesetVersion = input.targetVersion ?? DEFAULT_RULESET_VERSION;
-  const diagnostics = await runDonChecker(contents, ADR_VERSIONS[rulesetVersion].donChecker);
+  const diagnostics = await runDonChecker(contents, ADR_VERSIONS[rulesetVersion].id);
   return buildLintResult(diagnostics, rulesetVersion);
 };

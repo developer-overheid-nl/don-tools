@@ -17,6 +17,7 @@ minimumReleaseAgeExclude:
   - '@vitest/spy@4.1.11'
   - '@vitest/utils@4.1.11'
   - vitest@4.1.11
+  - '@developer-overheid-nl/don-checker@1.3.1'
 
 overrides:
   brace-expansion@<1.1.18: 1.1.18
