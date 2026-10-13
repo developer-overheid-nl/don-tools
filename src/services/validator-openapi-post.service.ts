@@ -28,7 +28,7 @@ const ADR_VERSIONS = Object.fromEntries(
   RULESET_VERSIONS.map((rulesetVersion) => [rulesetVersion, resolveAdrVersion(rulesetVersion)]),
 ) as Record<RulesetVersion, AdrVersion>;
 
-const DEFAULT_RULESET_VERSION: RulesetVersion = "2.1";
+const DEFAULT_RULESET_VERSION: RulesetVersion = "2.2";
 const SEVERITY_LABELS = ["error", "warning", "info", "hint"] as const;
 
 const ruleSeverity = (rule: unknown): unknown =>

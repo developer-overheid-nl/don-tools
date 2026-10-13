@@ -43,10 +43,10 @@ const invalidSpec = {
 };
 
 describe("validatorOpenAPIPost", () => {
-  it("defaults to ruleset version 2.1", async () => {
+  it("defaults to ruleset version 2.2", async () => {
     const result = await validatorOpenAPIPost({ oasBody: JSON.stringify(validSpec) });
 
-    expect(result.rulesetVersion).toBe("2.1");
+    expect(result.rulesetVersion).toBe("2.2");
   });
 
   it.each(["2.0", "2.1", "2.2", "draft"] as const)(
